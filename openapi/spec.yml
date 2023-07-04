@@ -1,1 +1,116 @@
+openapi: 3.0.1
+info:
+  title: Booking API
+  version: 1.0.0
+paths:
+  /booking:
+    post:
+      summary: Make a booking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRequest'
+      responses:
+        '200':
+          description: Booking rates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingRates'
+components:
+  schemas:
+    BookingRequest:
+      type: object
+      properties:
+        arrivalDate:
+          type: string
+          format: date
+        departureDate:
+          type: string
+          format: date
+        numAdults:
+          type: integer
+        numRooms:
+          type: integer
+        numChildType1:
+          type: integer
+        numChildType2:
+          type: integer
+    BookingRates:
+      type: object
+      properties:
+        rates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rate'
+    Rate:
+      type: object
+      properties:
+        isValid:
+          type: boolean
+        rateCode:
+          type: string
+        roomCategory:
+          type: string
+        totalPrice:
+          type: number
+        dates:
+          type: array
+          items:
+            $ref: '#/components/schemas/DateRate'
+    DateRate:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        basePrice:
+          $ref: '#/components/schemas/BasePrice'
+        extras:
+          type: array
+          items:
+            $ref: '#/components/schemas/Extra'
+    BasePrice:
+      type: object
+      properties:
+        basePrice:
+          type: number
+        adultPrice:
+          type: number
+        childPrice:
+          type: number
+        total:
+          type: number
+        taxRate:
+          type: number
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rule'
+    Rule:
+      type: object
+      properties:
+        name:
+          type: string
+        formula:
+          type: string
+        price:
+          type: number
+    Extra:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        includedInRate:
+          type: boolean
+        mealPlanType:
+          type: integer
+        taxRate:
+          type: number
 
